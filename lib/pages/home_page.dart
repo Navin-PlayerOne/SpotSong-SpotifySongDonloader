@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
+import 'package:spotsong/model/song_model.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -62,8 +63,9 @@ class _HomeState extends State<Home> {
       showMessage('Invalid link', Colors.red);
     }
     if (flag) {
-      Navigator.pushNamed(context, '/showinfo',
-          arguments: {'type': type, 'token': token});
+      SongModel.token = token;
+      SongModel.type = type;
+      Navigator.pushNamed(context, '/showsongs');
     }
   }
 
