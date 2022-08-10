@@ -1,8 +1,10 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spotsong/pages/about.dart';
 import 'package:spotsong/pages/home_page.dart';
 import 'package:spotsong/pages/listsongs.dart';
+import 'package:spotsong/pages/navigation_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +56,9 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const Home(),
-          '/showsongs':(context) => const ShownSongs(),
+          '/showsongs': (context) => const ShownSongs(),
+          '/about' :  (context) => const About(),
+          //  '/nav': (context) => const Nav(),
         },
       );
     });

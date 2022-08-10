@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spotify/spotify.dart';
 import 'package:spotsong/model/song_model.dart';
+import 'package:spotsong/pages/navigation_bar.dart';
+
+import '../decorations/toast.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,10 +17,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottomNavigationBar: NewNavBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: const Text('Spotify Downloader'),
+        title: const Text('Spotify Song Downloader',
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Center(
@@ -60,33 +64,12 @@ class _HomeState extends State<Home> {
       String req = link.split('/').last;
       token = req.split('?').first;
     } else {
-      showMessage('Invalid link', Colors.red);
+      showMessage('Invalid link', Colors.red, context);
     }
     if (flag) {
       SongModel.token = token;
       SongModel.type = type;
       Navigator.pushNamed(context, '/showsongs');
     }
-  }
-
-  void showMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Container(
-          height: 30.0,
-          decoration: BoxDecoration(
-              color: color,
-              borderRadius: const BorderRadius.all(Radius.circular(20.0))),
-          child: Center(
-            child: Text(
-              msg,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          )),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-    ));
   }
 }
