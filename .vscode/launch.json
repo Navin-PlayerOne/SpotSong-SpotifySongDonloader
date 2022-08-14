@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Mi 11X",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "169.254.224.86:5555"
+        },
+        {
+            "name": "infinix",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "H626X650C0123456"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Double Thread",
+            "configurations": [
+                "Mi 11X",
+                "infinix"
+            ]
+        }
+    ]
+}

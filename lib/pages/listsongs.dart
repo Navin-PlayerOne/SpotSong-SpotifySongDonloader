@@ -153,7 +153,17 @@ class _ShownSongsState extends State<ShownSongs> {
         return IconButton(
             icon: const Icon(Icons.refresh_outlined),
             color: Colors.red,
-            onPressed: () {});
+            onPressed: () async {
+              int status = await download(song);
+              if (status == 0 || status == 1) {
+                setState(() {
+                  song.statusCode = 1;
+                });
+              } else if (status == -1) {
+                setState(() {});
+                song.statusCode = -1;
+              }
+            });
       case 2:
         return CircularProgressIndicator(
           value: song.progress,
@@ -161,7 +171,6 @@ class _ShownSongsState extends State<ShownSongs> {
           valueColor: const AlwaysStoppedAnimation(Colors.green),
           strokeWidth: 5,
         );
-        ;
     }
     return Icon(Icons.error);
   }
@@ -170,13 +179,13 @@ class _ShownSongsState extends State<ShownSongs> {
     //var video = await yt.videos.get(id);
     //getting permissinon
     final statusStorage = await Permission.storage.request();
-    final statusExStorage = await Permission.manageExternalStorage.request();
-    final statusMediaLoc = await Permission.accessMediaLocation.request();
+    //final statusExStorage = await Permission.manageExternalStorage.request();
+    //final statusMediaLoc = await Permission.accessMediaLocation.request();
     final downloadPath = await getExternalStorageDirectory();
 
     if (statusStorage.isGranted &&
-        statusExStorage.isGranted &&
-        statusMediaLoc.isGranted &&
+        // statusExStorage.isGranted &&
+        //statusMediaLoc.isGranted &&
         downloadPath != null) {
       var yt = YoutubeExplode();
 
@@ -193,8 +202,13 @@ class _ShownSongsState extends State<ShownSongs> {
         Directory('${downloadPath.path.split("/Android")[0]}/spotsongs')
             .createSync();
       }
-      final downloadedFile = File(
-          '${downloadPath.path.split("/Android")[0]}/spotsongs/${songInfo.ytvname}.mp3');
+      String buff = songInfo.ytvname;
+      buff = buff.replaceAll('?', '');
+      print(buff);
+      final downloadedFile = await File(
+          '${downloadPath.path.split("/Android")[0]}/spotsongs/${buff.toString()}.mp3');
+      print("errorrs");
+      print(downloadedFile.path);
       print('hii');
       if (downloadedFile.existsSync() && downloadedFile.lengthSync() > 0) {
         return 0;
@@ -233,6 +247,7 @@ class _ShownSongsState extends State<ShownSongs> {
       await fileStream.close();
       return 1;
     } else {
+      print("failed");
       return -1;
     }
   }
